@@ -46,9 +46,10 @@ namespace Bookworm
         }
 
         private static List<string> LoadData()
-        { 
+        {
+            string projectPath = Directory.GetParent(Environment.CurrentDirectory).Parent.FullName;
             List<string> words = new List<string>();
-            words = File.ReadAllLines("FULL.LST").ToList();
+            words = File.ReadAllLines(Path.Combine(projectPath, "FULL.LST")).ToList();
             return words;
         }
 

@@ -14,18 +14,28 @@ namespace Bookworm
             List<string> wordList = new List<string>();
             List<string> result = new List<string>();
             wordList = LoadData();
-            ConsoleKeyInfo info;
+            bool again = false;
             do
             {
                 Console.Clear();
-                Console.Write("Please input letters:");
+                Console.Write("Please input letters ('?' for wildcard):");
                 string inputLetters = UserInput();
                 result = ProcesssData(inputLetters, wordList);
                 Output(result);
-                Console.Write("Again (Y/N):");
-                info = Console.ReadKey();
-            } while (info.Key == ConsoleKey.Y);
+                again = YesNo();
+            } while (again);
+        }
 
+        private static bool YesNo()
+        {
+            ConsoleKeyInfo keyInfo;
+            do
+            {
+                Console.Write("Again (Y/N):");
+                keyInfo = Console.ReadKey();
+                Console.WriteLine();
+            } while (keyInfo.Key != ConsoleKey.Y && keyInfo.Key != ConsoleKey.N);
+            return (keyInfo.Key == ConsoleKey.Y) ? true : false;
         }
 
         private static string UserInput()
@@ -36,7 +46,7 @@ namespace Bookworm
             {
                 n = Console.Read();
                 char c = Convert.ToChar(n);
-                if (char.IsLetter(c))
+                if (char.IsLetter(c) || c == '?')
                 {
                     input = string.Concat(input, c);
                 }
@@ -65,7 +75,7 @@ namespace Bookworm
                 {
                     for (int j = 0; j < temp.Length; j++)
                     {
-                        if (word[i] == temp[j])
+                        if (word[i] == temp[j] || temp[j] == '?')
                         {
                             count += 1;
                             temp = temp.Remove(j, 1);

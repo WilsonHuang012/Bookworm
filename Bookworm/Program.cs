@@ -14,7 +14,7 @@ namespace Bookworm
             List<string> wordList = new List<string>();
             List<string> result = new List<string>();
             wordList = LoadData();
-            bool again = false;
+            bool exit = false;
             do
             {
                 Console.Clear();
@@ -22,20 +22,20 @@ namespace Bookworm
                 string inputLetters = UserInput();
                 result = ProcesssData(inputLetters, wordList);
                 Output(result);
-                again = YesNo();
-            } while (again);
+                exit = Exit();
+            } while (exit);
         }
 
-        private static bool YesNo()
+        private static bool Exit()
         {
             ConsoleKeyInfo keyInfo;
             do
             {
-                Console.Write("Again (Y/N):");
-                keyInfo = Console.ReadKey();
+                Console.Write("Press Enter Key to retry, ESC exit program");
                 Console.WriteLine();
-            } while (keyInfo.Key != ConsoleKey.Y && keyInfo.Key != ConsoleKey.N);
-            return (keyInfo.Key == ConsoleKey.Y) ? true : false;
+                keyInfo = Console.ReadKey(true);
+            } while (keyInfo.Key != ConsoleKey.Enter && keyInfo.Key != ConsoleKey.Escape);
+            return (keyInfo.Key == ConsoleKey.Escape) ? false : true;
         }
 
         private static string UserInput()

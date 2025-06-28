@@ -41,7 +41,7 @@ namespace Bookworm
         private static string UserInput()
         {
             string input = string.Empty;
-            int n = -1;
+            int n;
             do
             {
                 n = Console.Read();
@@ -57,9 +57,8 @@ namespace Bookworm
 
         private static List<string> LoadData()
         {
-            string projectPath = Directory.GetParent(Environment.CurrentDirectory).Parent.FullName;
             List<string> words = new List<string>();
-            words = File.ReadAllLines(Path.Combine(projectPath, "FULL.LST")).ToList();
+            words = File.ReadAllLines("FULL.LST").ToList();
             return words;
         }
 

@@ -1,9 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.IO;
+using System.Linq;
 
 namespace Bookworm
 {
@@ -12,15 +10,14 @@ namespace Bookworm
         static void Main(string[] args)
         {
             List<string> wordList = new List<string>();
-            List<string> result = new List<string>();
-            wordList = LoadData();
-            bool exit = false;
+            LoadData(wordList);
+            bool exit;
             do
             {
                 Console.Clear();
                 Console.Write("Please input letters ('?' for wildcard):");
                 string inputLetters = UserInput();
-                result = ProcesssData(inputLetters, wordList);
+                List<string> result = ProcesssData(inputLetters, wordList);
                 Output(result);
                 exit = Exit();
             } while (exit);
@@ -31,11 +28,11 @@ namespace Bookworm
             ConsoleKeyInfo keyInfo;
             do
             {
-                Console.Write("Press Enter Key to retry, ESC exit program");
+                Console.Write("Press ENTER Key to retry, ESC exit program");
                 Console.WriteLine();
                 keyInfo = Console.ReadKey(true);
             } while (keyInfo.Key != ConsoleKey.Enter && keyInfo.Key != ConsoleKey.Escape);
-            return (keyInfo.Key == ConsoleKey.Escape) ? false : true;
+            return keyInfo.Key != ConsoleKey.Escape;
         }
 
         private static string UserInput()
@@ -55,16 +52,13 @@ namespace Bookworm
             return input;
         }
 
-        private static List<string> LoadData()
+        private static void LoadData(List<string> wordList)
         {
-            List<string> words = new List<string>();
-            words = File.ReadAllLines("FULL.LST").ToList();
-            return words;
+            wordList.AddRange(File.ReadAllLines("FULL.LST").ToList());
         }
 
         private static List<string> ProcesssData(string inputLetters, List<string> wordList)
         {
-
             List<string> output = new List<string>();
             foreach (string word in wordList)
             {
